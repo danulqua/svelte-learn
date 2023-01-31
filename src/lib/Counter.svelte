@@ -2,34 +2,27 @@
   let count1 = 0;
   let count2 = 0;
 
-  // Not going to work because reactive variables doesn't appear on the
-  // right hand side of the expression
-  // $: string = `You have clicked ${sumInorrect()} times.`;
+  // String won't be updated since reactive statements order is important!
+  // First, we need to call the `setCount2(count1)` in order to update count2,
+  // and since string depends on `count2`, it should be delcared after function call.
+  //
+  // $: string = `Count2 is ${count2}`;
+  // $: setCount2(count1);
 
-  // Works because `count1` and `count2` exist on the right hand side
-  $: string = `You have clicked ${sumCorrect(count1, count2)} times.`;
+  // This will work as expected
+  $: setCount2(count1);
+  $: string = `Count2 is ${count2}`;
 
   function increment1() {
     count1++;
   }
 
-  function increment2() {
-    count2++;
-  }
-
-  // Not going to work in the reactive `$:` statement
-  // function sumIncorrect() {
-  //   return count1 + count2;
-  // }
-
-  // Works in the reactive `$:` statement
-  function sumCorrect(a, b) {
-    return a + b;
+  function setCount2(value) {
+    count2 = value;
   }
 </script>
 
 <button on:click={increment1}>Clicks: {count1}</button>
-<button on:click={increment2}>Clicks: {count2}</button>
 <p>{string}</p>
 
 <style>
