@@ -1,8 +1,7 @@
 <script>
   let count = 0;
-
-  // known problem - string isn't being updated when count updates
-  let string = `You have clicked ${count} times.`;
+  // let string =`You have clicked ${count} times.`;
+  $: string = `You have clicked ${count} times.`;
 
   function increment() {
     count++;
