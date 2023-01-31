@@ -1,28 +1,30 @@
 <script>
-  let count1 = 0;
-  let count2 = 0;
+  // Kind of weird, but this is how props is being defined.
+  export let initialCount;
 
-  // String won't be updated since reactive statements order is important!
-  // First, we need to call the `setCount2(count1)` in order to update count2,
-  // and since string depends on `count2`, it should be delcared after function call.
+  // If you want to make prop optional, but keep it `undefined` -
+  // you should explicitly give it an `undefined` value
+  export let maxCount = undefined;
+
+  // You can access all props
   //
-  // $: string = `Count2 is ${count2}`;
-  // $: setCount2(count1);
+  // console.log($$props)
 
-  // This will work as expected
-  $: setCount2(count1);
-  $: string = `Count2 is ${count2}`;
+  // You can acces only those props, that were passed to the component,
+  // but weren't defined
+  //
+  // console.log($$restProps)
 
-  function increment1() {
-    count1++;
-  }
+  let count = initialCount;
+  $: string = `Count is ${count}`;
 
-  function setCount2(value) {
-    count2 = value;
+  function increment() {
+    if (count === maxCount) return;
+    count++;
   }
 </script>
 
-<button on:click={increment1}>Clicks: {count1}</button>
+<button on:click={increment}>Clicks: {count}</button>
 <p>{string}</p>
 
 <style>
