@@ -1,10 +1,22 @@
 <script>
+  import { v4 as uuid } from 'uuid';
+  import Button from './Button.svelte';
+
   export let todos = [];
 
   let inputText = '';
 
   function handleAddTodo() {
-    console.log(inputText);
+    todos = [
+      ...todos,
+      {
+        id: uuid(),
+        title: inputText,
+        completed: false
+      }
+    ];
+
+    inputText = '';
   }
 </script>
 
@@ -19,6 +31,6 @@
 
   <form class="add-todo-form" on:submit|preventDefault={handleAddTodo}>
     <input type="text" bind:value={inputText} />
-    <button type="submit">Add todo</button>
+    <Button type="submit" disabled={!inputText}>Add todo</Button>
   </form>
 </div>
