@@ -1,3 +1,5 @@
+<svelte:options immutable={true} />
+
 <script>
   import { createEventDispatcher } from 'svelte';
   import Button from './Button.svelte';

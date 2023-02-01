@@ -22,8 +22,14 @@
   ];
 
   function handleAddTodo(event) {
-    event.preventDefault();
-    console.log(event.detail);
+    todos = [
+      ...todos,
+      {
+        id: uuid(),
+        title: event.detail,
+        completed: false
+      }
+    ];
   }
 </script>
 
