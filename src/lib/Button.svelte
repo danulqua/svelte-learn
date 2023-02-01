@@ -1,25 +1,42 @@
-<!--
-  Slots are like children in React, so it's possible to pass something
-  directly inside the component like so: <Button>Something</Button> 
+<script>
+  export let size = 'small';
+  export let shadow = false;
+</script>
 
-  If you don't pass anything like so: <Button />, but still want to display fallback
-  at least - inside the component you should put your fallback inside the <slot></slot>.
+<!--
+  In class directive you can use a shorthan like `class:class-name` if `class-name` is the
+  classname and the prop has the same name
 -->
-<button><slot>Fallback</slot></button>
+<button class:size-sm={size === 'small'} class:size-lg={size === 'large'} class:shadow><slot>Fallback</slot></button>
 
 <style lang="scss">
   button {
     border: none;
     outline: none;
     background-color: $color-main;
-    padding: 15px 20px;
     border-radius: 10px;
     font-size: 18px;
     cursor: pointer;
 
+    &.size-sm {
+      padding: 15px 20px;
+    }
+
+    &.size-lg {
+      padding: 20px 25px;
+      font-size: 22px;
+    }
+
+    &.shadow {
+      box-shadow: 0 0 10px $color-main;
+    }
+
     &:hover {
-      color: $color-main;
-      background-color: #fff;
+      background-color: darken($color-main, 10%);
+    }
+
+    &:active {
+      background-color: lighten($color-main, 10%);
     }
   }
 </style>
