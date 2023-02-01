@@ -1,13 +1,8 @@
 <script>
-  import Counter from './lib/Counter.svelte';
-
-  const props = {
-    initialCount: 10,
-    maxCount: 20
-  };
+  import Button from './lib/Button.svelte';
 </script>
 
-<Counter {...props} />
+<Button />
 
 <style>
 </style>
