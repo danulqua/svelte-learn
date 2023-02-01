@@ -32,6 +32,7 @@
 <div class="todo-list-wrapper">
   <ul>
     {#each todos as { id, title, completed } (id)}
+      {@debug id, title, completed}
       <li>
         <label>
           <input type="checkbox" checked={completed} on:change={() => handleToggleTodo(id)} />
