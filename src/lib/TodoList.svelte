@@ -1,30 +1,35 @@
 <svelte:options immutable={true} />
 
 <script>
-  import { afterUpdate, beforeUpdate, createEventDispatcher, onDestroy, onMount } from 'svelte';
+  import { afterUpdate, createEventDispatcher } from 'svelte';
   import Button from './Button.svelte';
 
+  // todos and previous todos
   export let todos = [];
+  let prevTodos = todos;
+  let autoscroll = false;
+
   export const clearInput = () => (inputText = '');
   export const focusInput = () => input.focus();
 
-  onMount(() => {
-    console.log('Mounted');
-    return () => console.log('Destroyed (in onMount)');
-  });
+  // In a reactive statement compare how exactly new `todos` has been changed.
+  // If items count in the array has been increased - it means that new item
+  // was added, so we need to scroll. For that, we're setting the `autoscroll`
+  // flag to `true`. After if statement, we're updating `prevTodos` with new `todos`.
+  $: {
+    if (todos.length > prevTodos.length) autoscroll = true;
+    prevTodos = todos;
+  }
 
-  onDestroy(() => {
-    console.log('Destroyed (in onDestroy)');
-  });
-
-  beforeUpdate(() => {
-    if (listDiv) {
-      console.log(listDiv.clientHeight);
-    }
-  });
-
+  // `afterUpdate` method fires right after the DOM updates, so it's where we need
+  // to apply the scroll logic.
   afterUpdate(() => {
-    console.log(listDiv.clientHeight);
+    // If `autoscroll` is set to `true` - we should scroll to the bottom where is
+    // the new item appeared and set `autoscroll` back to `false`.
+    if (autoscroll) {
+      listDiv.scrollTo({ top: listDiv.scrollHeight, behavior: 'smooth' });
+      autoscroll = false;
+    }
   });
 
   const dispatch = createEventDispatcher();
@@ -50,7 +55,7 @@
 </script>
 
 <div class="todo-list-wrapper">
-  <div class="todo-list" bind:this={listDiv}>
+  <div class="todo-list" style:max-height="150px" style:overflow="auto" bind:this={listDiv}>
     <ul>
       {#each todos as { id, title, completed } (id)}
         <li>

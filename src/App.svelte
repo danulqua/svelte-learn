@@ -22,22 +22,16 @@
   ];
 
   let todoList;
-  let isVisible = true;
 
   function handleAddTodo(event) {
-    event.preventDefault();
-    setTimeout(() => {
-      todos = [
-        ...todos,
-        {
-          id: uuid(),
-          title: event.detail,
-          completed: false
-        }
-      ];
-
-      todoList.clearInput();
-    }, 1000);
+    todos = [
+      ...todos,
+      {
+        id: uuid(),
+        title: event.detail,
+        completed: false
+      }
+    ];
   }
 
   function handleDeleteTodo(event) {
@@ -49,19 +43,15 @@
   }
 </script>
 
-<label><input type="checkbox" bind:checked={isVisible} />Show list</label>
 <h2>{todos.length} {todos.length === 1 ? 'todo' : 'todos'}</h2>
-{#if isVisible}
-  <TodoList
-    {todos}
-    bind:this={todoList}
-    on:addtodo={handleAddTodo}
-    on:deletetodo={handleDeleteTodo}
-    on:toggletodo={handleToggleTodo}
-  />
-{/if}
+<TodoList
+  {todos}
+  bind:this={todoList}
+  on:addtodo={handleAddTodo}
+  on:deletetodo={handleDeleteTodo}
+  on:toggletodo={handleToggleTodo}
+/>
 <Button on:click={() => (todos = [])} disabled={!todos.length}>Clear todos</Button>
-<button on:click={todoList.focusInput}>Focus</button>
 
 <style>
 </style>
