@@ -21,13 +21,14 @@
     }
   ];
 
-  $: {
-    console.log(todos);
+  function handleAddTodo(event) {
+    event.preventDefault();
+    console.log(event.detail);
   }
 </script>
 
 <h2>{todos.length} {todos.length === 1 ? 'todo' : 'todos'}</h2>
-<TodoList bind:todos />
+<TodoList {todos} on:addtodo={handleAddTodo} />
 <Button on:click={() => (todos = [])}>Clear todos</Button>
 
 <style>
