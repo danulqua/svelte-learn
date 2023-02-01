@@ -7,14 +7,19 @@
 -->
 <button><slot>Fallback</slot></button>
 
-<style>
+<style lang="scss">
   button {
     border: none;
     outline: none;
-    background-color: orangered;
+    background-color: $color-main;
     padding: 15px 20px;
     border-radius: 10px;
     font-size: 18px;
     cursor: pointer;
+
+    &:hover {
+      color: $color-main;
+      background-color: #fff;
+    }
   }
 </style>
