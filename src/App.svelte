@@ -10,7 +10,7 @@
   shadow
   bgColor="blue"
   color="green"
-  on:click|once={() => alert(true)}
+  disabled
   on:click={() => console.log('hello')}
 >
   <div style:width="30px" slot="left">

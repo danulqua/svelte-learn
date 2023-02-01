@@ -7,6 +7,7 @@
   let isLeftHovered = false;
 </script>
 
+<!-- One of the use cases when it's ok to use $$restProps -->
 <button
   on:click
   style:color
@@ -14,6 +15,7 @@
   class:size-sm={size === 'small'}
   class:size-lg={size === 'large'}
   class:shadow
+  {...$$restProps}
 >
   {#if $$slots.left}
     <div
@@ -50,6 +52,11 @@
 
     &.shadow {
       box-shadow: 0 0 10px $color-main;
+    }
+
+    &:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
     }
 
     &:hover {
