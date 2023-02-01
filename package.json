@@ -14,5 +14,8 @@
     "svelte": "^3.54.0",
     "svelte-preprocess": "^5.0.1",
     "vite": "^4.0.0"
+  },
+  "dependencies": {
+    "svelte-icons": "^2.1.0"
   }
 }

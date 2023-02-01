@@ -10,11 +10,21 @@
   style:background-color={bgColor}
   class:size-sm={size === 'small'}
   class:size-lg={size === 'large'}
-  class:shadow><slot>Fallback</slot></button
+  class:shadow
 >
+  {#if $$slots.left}
+    <div class="left-content" style:width="20px">
+      <slot name="left" />
+    </div>
+  {/if}
+  <slot>Fallback</slot>
+</button>
 
 <style lang="scss">
   button {
+    display: flex;
+    align-items: center;
+    gap: 10px;
     border: none;
     outline: none;
     background-color: $color-main;
