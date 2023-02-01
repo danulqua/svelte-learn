@@ -1,27 +1,27 @@
 <script>
-  import Button from './lib/Button.svelte';
-  import GoStar from 'svelte-icons/go/GoStar.svelte';
-  import GoRuby from 'svelte-icons/go/GoRuby.svelte';
+  import { v4 as uuid } from 'uuid';
+  import TodoList from './lib/TodoList.svelte';
+
+  const todos = [
+    {
+      id: uuid(),
+      title: 'My todo',
+      completed: true
+    },
+    {
+      id: uuid(),
+      title: '2nd todo',
+      completed: false
+    },
+    {
+      id: uuid(),
+      title: 'Buy some bread',
+      completed: false
+    }
+  ];
 </script>
 
-<Button
-  let:isLeftHovered
-  size="large"
-  shadow
-  bgColor="blue"
-  color="green"
-  disabled
-  on:click={() => console.log('hello')}
->
-  <div style:width="30px" slot="left">
-    {#if isLeftHovered}
-      <GoRuby />
-    {:else}
-      <GoStar />
-    {/if}
-  </div>
-  Click me!
-</Button>
+<TodoList {todos} />
 
 <style>
 </style>
