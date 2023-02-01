@@ -1,8 +1,9 @@
 <script>
   import { v4 as uuid } from 'uuid';
+  import Button from './lib/Button.svelte';
   import TodoList from './lib/TodoList.svelte';
 
-  const todos = [
+  let todos = [
     {
       id: uuid(),
       title: 'My todo',
@@ -19,9 +20,15 @@
       completed: false
     }
   ];
+
+  $: {
+    console.log(todos);
+  }
 </script>
 
-<TodoList {todos} />
+<h2>{todos.length} {todos.length === 1 ? 'todo' : 'todos'}</h2>
+<TodoList bind:todos />
+<Button on:click={() => (todos = [])}>Clear todos</Button>
 
 <style>
 </style>
