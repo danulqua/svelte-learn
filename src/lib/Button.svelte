@@ -1,13 +1,17 @@
 <script>
   export let size = 'small';
   export let shadow = false;
+  export let bgColor = undefined;
+  export let color = undefined;
 </script>
 
-<!--
-  In class directive you can use a shorthan like `class:class-name` if `class-name` is the
-  classname and the prop has the same name
--->
-<button class:size-sm={size === 'small'} class:size-lg={size === 'large'} class:shadow><slot>Fallback</slot></button>
+<button
+  style:color
+  style:background-color={bgColor}
+  class:size-sm={size === 'small'}
+  class:size-lg={size === 'large'}
+  class:shadow><slot>Fallback</slot></button
+>
 
 <style lang="scss">
   button {
@@ -32,11 +36,11 @@
     }
 
     &:hover {
-      background-color: darken($color-main, 10%);
+      background-image: linear-gradient(rgba(0, 0, 0, 0.2) 0 0);
     }
 
     &:active {
-      background-color: lighten($color-main, 10%);
+      background-image: linear-gradient(rgba(255, 255, 255, 0.2) 0 0);
     }
   }
 </style>
