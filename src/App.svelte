@@ -1,4 +1,5 @@
 <script>
+  import { tick } from 'svelte';
   import { v4 as uuid } from 'uuid';
   import Button from './lib/Button.svelte';
   import TodoList from './lib/TodoList.svelte';
@@ -23,7 +24,9 @@
 
   let todoList;
 
-  function handleAddTodo(event) {
+  async function handleAddTodo(event) {
+    console.log(document.querySelectorAll('.todo-list ul li'));
+
     todos = [
       ...todos,
       {
@@ -32,6 +35,9 @@
         completed: false
       }
     ];
+
+    await tick();
+    console.log(document.querySelectorAll('.todo-list ul li'));
   }
 
   function handleDeleteTodo(event) {
