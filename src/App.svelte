@@ -31,11 +31,15 @@
       }
     ];
   }
+
+  function handleDeleteTodo(event) {
+    todos = todos.filter((item) => item.id !== event.detail);
+  }
 </script>
 
 <h2>{todos.length} {todos.length === 1 ? 'todo' : 'todos'}</h2>
-<TodoList {todos} on:addtodo={handleAddTodo} />
-<Button on:click={() => (todos = [])}>Clear todos</Button>
+<TodoList {todos} on:addtodo={handleAddTodo} on:deletetodo={handleDeleteTodo} />
+<Button on:click={() => (todos = [])} disabled={!todos.length}>Clear todos</Button>
 
 <style>
 </style>

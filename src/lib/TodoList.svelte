@@ -16,14 +16,22 @@
 
     if (isNotPrevented) inputText = '';
   }
+
+  function handleDeleteTodo(todoId) {
+    dispatch('deletetodo', todoId);
+  }
 </script>
 
 <div class="todo-list-wrapper">
   <ul>
-    {#each todos as { id, title }, idx (id)}
-      {@const todoNumber = idx + 1}
-
-      <li>{todoNumber} - {title}</li>
+    {#each todos as { id, title, completed } (id)}
+      <li>
+        <label>
+          <input type="checkbox" checked={completed} />
+          {title}
+          <button on:click={() => handleDeleteTodo(id)}>Delete</button>
+        </label>
+      </li>
     {/each}
   </ul>
 
