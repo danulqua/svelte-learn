@@ -17,7 +17,8 @@
     },
     {
       id: uuid(),
-      title: 'Buy some bread',
+      title:
+        'Aute id anim enim reprehenderit minim. Tempor irure anim ut dolor velit nisi nulla nulla id excepteur velit. Sit nostrud culpa ipsum veniam. Ad est veniam consequat adipisicing consectetur voluptate fugiat deserunt ex consectetur duis laboris nostrud. Eiusmod pariatur incididunt aliqua aliquip occaecat amet in excepteur aute eiusmod incididunt.',
       completed: false
     }
   ];
@@ -25,8 +26,6 @@
   let todoList;
 
   async function handleAddTodo(event) {
-    console.log(document.querySelectorAll('.todo-list ul li'));
-
     todos = [
       ...todos,
       {
@@ -35,9 +34,6 @@
         completed: false
       }
     ];
-
-    await tick();
-    console.log(document.querySelectorAll('.todo-list ul li'));
   }
 
   function handleDeleteTodo(event) {
