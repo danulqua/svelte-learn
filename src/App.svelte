@@ -1,11 +1,18 @@
 <script>
   import Button from './lib/Button.svelte';
   import GoStar from 'svelte-icons/go/GoStar.svelte';
+  import GoRuby from 'svelte-icons/go/GoRuby.svelte';
 </script>
 
-<Button size="small" shadow bgColor="blue" color="green">
-  <GoStar slot="left" />
-  Click me!
+<Button let:isLeftHovered size="large" shadow bgColor="blue" color="green">
+  <div let:x style:width="30px" slot="left">
+    {#if isLeftHovered}
+      <GoRuby />
+    {:else}
+      <GoStar />
+    {/if}
+    Click me {x}!
+  </div>
 </Button>
 
 <style>

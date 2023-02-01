@@ -3,6 +3,8 @@
   export let shadow = false;
   export let bgColor = undefined;
   export let color = undefined;
+
+  let isLeftHovered = false;
 </script>
 
 <button
@@ -13,11 +15,15 @@
   class:shadow
 >
   {#if $$slots.left}
-    <div class="left-content" style:width="20px">
-      <slot name="left" />
+    <div
+      class="left-content"
+      on:mouseenter={() => (isLeftHovered = true)}
+      on:mouseleave={() => (isLeftHovered = false)}
+    >
+      <slot name="left" x={'100'} />
     </div>
   {/if}
-  <slot>Fallback</slot>
+  <slot {isLeftHovered}>Fallback</slot>
 </button>
 
 <style lang="scss">
