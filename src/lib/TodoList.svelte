@@ -20,6 +20,10 @@
   function handleDeleteTodo(todoId) {
     dispatch('deletetodo', todoId);
   }
+
+  function handleToggleTodo(todoId) {
+    dispatch('toggletodo', todoId);
+  }
 </script>
 
 <div class="todo-list-wrapper">
@@ -27,7 +31,7 @@
     {#each todos as { id, title, completed } (id)}
       <li>
         <label>
-          <input type="checkbox" checked={completed} />
+          <input type="checkbox" checked={completed} on:change={() => handleToggleTodo(id)} />
           {title}
           <button on:click={() => handleDeleteTodo(id)}>Delete</button>
         </label>

@@ -35,10 +35,16 @@
   function handleDeleteTodo(event) {
     todos = todos.filter((item) => item.id !== event.detail);
   }
+
+  function handleToggleTodo(event) {
+    todos = todos.map((item) => (item.id === event.detail ? { ...item, completed: !item.completed } : { ...item }));
+  }
+
+  $: console.log(todos);
 </script>
 
 <h2>{todos.length} {todos.length === 1 ? 'todo' : 'todos'}</h2>
-<TodoList {todos} on:addtodo={handleAddTodo} on:deletetodo={handleDeleteTodo} />
+<TodoList {todos} on:addtodo={handleAddTodo} on:deletetodo={handleDeleteTodo} on:toggletodo={handleToggleTodo} />
 <Button on:click={() => (todos = [])} disabled={!todos.length}>Clear todos</Button>
 
 <style>
