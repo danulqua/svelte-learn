@@ -75,11 +75,38 @@
       todos = todos.filter((item) => item.id !== todoId);
     } catch (err) {
       isError = true;
+    } finally {
+      disabledItems = disabledItems.filter((id) => id !== todoId);
     }
   }
 
-  function handleToggleTodo(event) {
-    todos = todos.map((item) => (item.id === event.detail ? { ...item, completed: !item.completed } : { ...item }));
+  async function handleToggleTodo(event) {
+    const todoId = event.detail;
+    if (disabledItems.includes(todoId)) return;
+
+    try {
+      isError = false;
+      disabledItems = [...disabledItems, todoId];
+      const todo = todos.find((item) => item.id === todoId);
+
+      const reqOptions = {
+        method: 'PATCH',
+        body: JSON.stringify({ ...todo, completed: !todo.completed }),
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      };
+
+      const response = await fetch(`https://jsonplaceholder.typicode.com/todos/${todoId}`, reqOptions);
+      if (!response.ok) throw new Error('Error has been occured.');
+
+      const updatedTodo = await response.json();
+      todos = todos.map((item) => (item.id === updatedTodo.id ? { ...updatedTodo } : { ...item }));
+    } catch (err) {
+      isError = true;
+    } finally {
+      disabledItems = disabledItems.filter((id) => id !== todoId);
+    }
   }
 </script>
 
