@@ -55,7 +55,14 @@
         {#each todos as { id, title, completed } (id)}
           <li class="todo-item" class:completed>
             <label>
-              <input type="checkbox" checked={completed} on:change={() => handleToggleTodo(id)} />
+              <input
+                type="checkbox"
+                checked={completed}
+                on:change={(e) => {
+                  e.currentTarget.checked = completed;
+                  handleToggleTodo(id);
+                }}
+              />
               {title}
             </label>
             <button class="btn-delete-todo" aria-label="Delete todo" on:click={() => handleDeleteTodo(id)}>
