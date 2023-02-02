@@ -60,28 +60,33 @@
   {:else}
     <div class="todo-list" style:max-height="150px" style:overflow="auto" bind:this={listDiv}>
       <ul>
-        {#each todos as { id, title, completed } (id)}
-          <li class="todo-item" class:completed>
-            <label>
-              <input
-                type="checkbox"
-                checked={completed}
-                disabled={disabledItems.includes(id)}
-                on:change={(e) => {
-                  e.currentTarget.checked = completed;
-                  handleToggleTodo(id);
-                }}
-              />
-              {title}
-            </label>
-            <button
-              class="btn-delete-todo"
-              aria-label="Delete todo"
-              on:click={() => handleDeleteTodo(id)}
-              disabled={disabledItems.includes(id)}
-            >
-              <IoIosTrash />
-            </button>
+        {#each todos as todo, index (todo.id)}
+          {@const { id, title, completed } = todo}
+          <li>
+            <slot {todo} {index}>
+              <div class="todo-item" class:completed>
+                <label>
+                  <input
+                    type="checkbox"
+                    checked={completed}
+                    disabled={disabledItems.includes(id)}
+                    on:change={(e) => {
+                      e.currentTarget.checked = completed;
+                      handleToggleTodo(id);
+                    }}
+                  />
+                  <slot name="title">{title}</slot>
+                </label>
+                <button
+                  class="btn-delete-todo"
+                  aria-label="Delete todo"
+                  on:click={() => handleDeleteTodo(id)}
+                  disabled={disabledItems.includes(id)}
+                >
+                  <IoIosTrash />
+                </button>
+              </div>
+            </slot>
           </li>
         {/each}
       </ul>
@@ -133,7 +138,7 @@
             align-items: baseline;
             gap: 10px;
             cursor: pointer;
-            padding-right: 20px;
+            padding-right: 30px;
 
             input[type='checkbox'] {
               &:disabled {
@@ -144,7 +149,7 @@
 
           .btn-delete-todo {
             position: absolute;
-            right: 10px;
+            right: 5px;
             height: 30px;
             display: none;
             background: none;

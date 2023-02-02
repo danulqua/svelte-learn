@@ -121,5 +121,9 @@
   on:addtodo={handleAddTodo}
   on:deletetodo={handleDeleteTodo}
   on:toggletodo={handleToggleTodo}
-/>
+  let:todo
+  let:index
+>
+  <svelte:fragment slot="title">{index} - {todo.title}</svelte:fragment>
+</TodoList>
 <button on:click={fetchTodos}>Refresh</button>
