@@ -1,7 +1,5 @@
 <script>
-  import { tick } from 'svelte';
   import { v4 as uuid } from 'uuid';
-  import Button from './lib/Button.svelte';
   import TodoList from './lib/TodoList.svelte';
 
   let todos = [
@@ -53,7 +51,3 @@
   on:deletetodo={handleDeleteTodo}
   on:toggletodo={handleToggleTodo}
 />
-<Button on:click={() => (todos = [])} disabled={!todos.length}>Clear todos</Button>
-
-<style>
-</style>
