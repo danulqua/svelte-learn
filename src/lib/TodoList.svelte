@@ -9,6 +9,7 @@
   export let isLoading = false;
   export let isAdding = false;
   export let isError = false;
+  export let disabledItems = [];
   let prevTodos = todos;
   let autoscroll = false;
 
@@ -65,6 +66,7 @@
               <input
                 type="checkbox"
                 checked={completed}
+                disabled={disabledItems.includes(id)}
                 on:change={(e) => {
                   e.currentTarget.checked = completed;
                   handleToggleTodo(id);
@@ -72,7 +74,12 @@
               />
               {title}
             </label>
-            <button class="btn-delete-todo" aria-label="Delete todo" on:click={() => handleDeleteTodo(id)}>
+            <button
+              class="btn-delete-todo"
+              aria-label="Delete todo"
+              on:click={() => handleDeleteTodo(id)}
+              disabled={disabledItems.includes(id)}
+            >
               <IoIosTrash />
             </button>
           </li>
@@ -127,6 +134,12 @@
             gap: 10px;
             cursor: pointer;
             padding-right: 20px;
+
+            input[type='checkbox'] {
+              &:disabled {
+                opacity: 0.5;
+              }
+            }
           }
 
           .btn-delete-todo {
@@ -140,6 +153,11 @@
 
             :global(svg) {
               color: rgb(184, 53, 53);
+            }
+
+            &:disabled {
+              opacity: 0.5;
+              cursor: progress;
             }
           }
 
