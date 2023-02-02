@@ -6,6 +6,8 @@
   import Button from './Button.svelte';
 
   export let todos = [];
+  export let isLoading = false;
+  export let isError = false;
   let prevTodos = todos;
   let autoscroll = false;
 
@@ -47,8 +49,12 @@
 </script>
 
 <div class="todo-list-wrapper">
-  {#if !todos.length}
-    <h2 class="text-list-empty">Todo list is empty.</h2>
+  {#if isLoading}
+    <h2 class="state-text">Loading...</h2>
+  {:else if isError}
+    <h2 class="state-text">Error has been occurred.</h2>
+  {:else if !todos.length}
+    <h2 class="state-text">Todo list is empty.</h2>
   {:else}
     <div class="todo-list" style:max-height="150px" style:overflow="auto" bind:this={listDiv}>
       <ul>
@@ -75,8 +81,14 @@
   {/if}
 
   <form class="add-todo-form" on:submit|preventDefault={handleAddTodo}>
-    <input type="text" placeholder="New todo name" bind:this={input} bind:value={inputText} />
-    <Button type="submit" disabled={!inputText}>Add todo</Button>
+    <input
+      type="text"
+      placeholder="New todo name"
+      bind:this={input}
+      bind:value={inputText}
+      disabled={isLoading || isError}
+    />
+    <Button type="submit" disabled={!inputText || isLoading || isError}>Add todo</Button>
   </form>
 </div>
 
@@ -86,7 +98,7 @@
     max-width: 350px;
     background-color: #777;
 
-    .text-list-empty {
+    .state-text {
       margin: 5px;
       text-align: center;
     }

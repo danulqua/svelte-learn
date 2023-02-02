@@ -1,16 +1,32 @@
 <script>
+  import { onMount } from 'svelte';
   import { v4 as uuid } from 'uuid';
   import TodoList from './lib/TodoList.svelte';
 
   let todos = [];
   let todoList;
-  let promise = fetchTodos();
+  let isLoading = false;
+  let isError = false;
 
-  function fetchTodos() {
-    return fetch('https://jsonplaceholder.typicode.com/todos?_limit=10').then((res) => {
-      if (!res.ok) throw new Error('Error has been occured.');
-      return res.json();
-    });
+  onMount(() => {
+    fetchTodos();
+  });
+
+  async function fetchTodos() {
+    try {
+      todos = [];
+      isLoading = true;
+      isError = false;
+
+      const response = await fetch('https://jsonplaceholder.typicode.com/todos?_limit=10');
+      if (!response.ok) throw new Error('Error has been occured.');
+
+      todos = await response.json();
+    } catch (err) {
+      isError = true;
+    } finally {
+      isLoading = false;
+    }
   }
 
   async function handleAddTodo(event) {
@@ -34,17 +50,13 @@
 </script>
 
 <h2>{todos.length} {todos.length === 1 ? 'todo' : 'todos'}</h2>
-{#await promise}
-  <h2>Loading...</h2>
-{:then todos}
-  <TodoList
-    {todos}
-    bind:this={todoList}
-    on:addtodo={handleAddTodo}
-    on:deletetodo={handleDeleteTodo}
-    on:toggletodo={handleToggleTodo}
-  />
-{:catch error}
-  <h2>{error}</h2>
-{/await}
-<button on:click={() => (promise = fetchTodos())}>Refresh</button>
+<TodoList
+  {todos}
+  {isLoading}
+  {isError}
+  bind:this={todoList}
+  on:addtodo={handleAddTodo}
+  on:deletetodo={handleDeleteTodo}
+  on:toggletodo={handleToggleTodo}
+/>
+<button on:click={fetchTodos}>Refresh</button>
