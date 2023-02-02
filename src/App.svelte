@@ -1,11 +1,12 @@
 <script>
-  import { onMount } from 'svelte';
+  import { onMount, tick } from 'svelte';
   import { v4 as uuid } from 'uuid';
   import TodoList from './lib/TodoList.svelte';
 
   let todos = [];
   let todoList;
   let isLoading = false;
+  let isAdding = false;
   let isError = false;
 
   onMount(() => {
@@ -30,14 +31,33 @@
   }
 
   async function handleAddTodo(event) {
-    todos = [
-      ...todos,
-      {
-        id: uuid(),
-        title: event.detail,
-        completed: false
-      }
-    ];
+    event.preventDefault();
+
+    try {
+      isAdding = true;
+      isError = false;
+
+      const reqOptions = {
+        method: 'POST',
+        body: JSON.stringify({ title: event.detail, completed: false }),
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      };
+
+      const response = await fetch('https://jsonplaceholder.typicode.com/todos', reqOptions);
+      if (!response.ok) throw new Error('Error has been occured.');
+
+      const newTodo = await response.json();
+      todos = [...todos, { ...newTodo, id: uuid() }];
+      todoList.clearInput();
+    } catch (err) {
+      isError = true;
+    } finally {
+      isAdding = false;
+      await tick();
+      todoList.focusInput();
+    }
   }
 
   function handleDeleteTodo(event) {
@@ -53,6 +73,7 @@
 <TodoList
   {todos}
   {isLoading}
+  {isAdding}
   {isError}
   bind:this={todoList}
   on:addtodo={handleAddTodo}

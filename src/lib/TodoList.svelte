@@ -7,6 +7,7 @@
 
   export let todos = [];
   export let isLoading = false;
+  export let isAdding = false;
   export let isError = false;
   let prevTodos = todos;
   let autoscroll = false;
@@ -86,9 +87,9 @@
       placeholder="New todo name"
       bind:this={input}
       bind:value={inputText}
-      disabled={isLoading || isError}
+      disabled={isLoading || isAdding || isError}
     />
-    <Button type="submit" disabled={!inputText || isLoading || isError}>Add todo</Button>
+    <Button type="submit" disabled={!inputText || isLoading || isAdding || isError}>Add todo</Button>
   </form>
 </div>
 
